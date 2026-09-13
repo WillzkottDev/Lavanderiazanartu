@@ -1,11 +1,11 @@
-name = "lavanderia"
+name = "zanartu-lavanderia"
 main = "worker.js"
 compatibility_date = "2026-09-01"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "zanartu-lavanderia"
-database_id = "AQUI_VA_TU_DATABASE_ID_REAL"
+database_id = "REEMPLAZAR_CON_DATABASE_ID"
 
 [assets]
 directory = "./public"
