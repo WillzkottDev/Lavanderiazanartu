@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f8fc" />
+  <title>Lavandería · Zañartu 1100</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="brand-block">
+        <div class="eyebrow">ZAÑARTU 1100</div>
+        <h1>Lavandería</h1>
+        <p>Tu edificio, más tiempo para ti.</p>
+      </div>
+      <button id="historyBtn" class="icon-action" aria-label="Abrir historial" title="Historial">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+      </button>
+    </header>
+
+    <main>
+      <section class="resident-card">
+        <div class="resident-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+        </div>
+        <div class="resident-copy">
+          <span>Identificación</span>
+          <strong id="residentSummary">Selecciona torre y departamento</strong>
+        </div>
+        <button id="editIdentityBtn" class="text-button" type="button">Cambiar</button>
+      </section>
+
+      <section id="identityPanel" class="identity-panel card">
+        <div class="identity-heading">
+          <div>
+            <h2>Tu departamento</h2>
+            <p>Se guardará en este dispositivo.</p>
+          </div>
+          <span id="identityStatus" class="pill neutral">Sin identificar</span>
+        </div>
+        <div class="identity-fields">
+          <label>
+            <span>Torre</span>
+            <select id="towerSelect">
+              <option value="">Selecciona</option>
+              <option value="1">Torre 1</option>
+              <option value="2">Torre 2</option>
+            </select>
+          </label>
+          <label>
+            <span>Departamento</span>
+            <input id="apartmentInput" inputmode="numeric" maxlength="4" placeholder="Ej. 508" />
+          </label>
+        </div>
+        <button id="saveIdentityBtn" class="primary full" type="button">Guardar departamento</button>
+      </section>
+
+      <section class="summary" aria-label="Resumen de máquinas">
+        <article class="metric metric-free">
+          <span class="metric-dot"></span>
+          <div><strong id="freeCount">—</strong><span>libres</span></div>
+        </article>
+        <article class="metric metric-busy">
+          <span class="metric-dot"></span>
+          <div><strong id="busyCount">—</strong><span>ocupadas</span></div>
+        </article>
+        <article class="metric metric-mine">
+          <span class="metric-dot"></span>
+          <div><strong id="myCount">—</strong><span>mías</span></div>
+        </article>
+      </section>
+
+      <section class="filters-row">
+        <div class="segmented" role="tablist" aria-label="Filtrar por torre">
+          <button class="seg active" data-filter-tower="all" type="button">Todas</button>
+          <button class="seg" data-filter-tower="1" type="button">Torre 1</button>
+          <button class="seg" data-filter-tower="2" type="button">Torre 2</button>
+        </div>
+        <div class="legend" aria-label="Leyenda">
+          <span class="legend-item"><i class="dot green"></i>Disponible</span>
+          <span class="legend-item"><i class="dot red"></i>Ocupada</span>
+          <span class="legend-item"><i class="dot amber"></i>Retiro</span>
+        </div>
+      </section>
+
+      <section id="machineGroups" class="machine-groups" aria-live="polite"></section>
+
+      <section class="qr-hint card">
+        <div class="qr-faux" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div>
+          <strong>¿Vas a la lavandería?</strong>
+          <p>Escanea el QR pegado en la máquina para abrirla seleccionada automáticamente.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="startBar" class="startbar hidden">
+    <div class="startbar-copy">
+      <span class="selected-machine-stack" aria-hidden="true">▣</span>
+      <div>
+        <strong id="selectedCount">0 máquinas</strong>
+        <span id="selectedNames">Selecciona una o más</span>
+      </div>
+    </div>
+    <button id="continueBtn" class="continue-button" type="button">Continuar <span>→</span></button>
+  </div>
+
+  <dialog id="startDialog">
+    <form method="dialog" class="dialog-card" id="startForm">
+      <div class="dialog-handle"></div>
+      <div class="dialog-head">
+        <div>
+          <div class="eyebrow">INICIAR USO</div>
+          <h2>Tiempo de lavado</h2>
+          <p>Vas a iniciar el uso de las siguientes máquinas:</p>
+        </div>
+        <button class="icon-btn" value="cancel" aria-label="Cerrar">×</button>
+      </div>
+
+      <div id="dialogMachineList" class="selected-list"></div>
+
+      <h3 class="dialog-section-title">Selecciona el tiempo</h3>
+      <div class="duration-grid">
+        <label class="duration-option active">
+          <input type="radio" name="duration" value="45" checked />
+          <div class="radio-visual"></div>
+          <div><strong>45 minutos</strong><span>Ciclo estándar</span><small>Ideal para carga diaria</small></div>
+        </label>
+        <label class="duration-option">
+          <input type="radio" name="duration" value="90" />
+          <div class="radio-visual"></div>
+          <div><strong>90 minutos</strong><span>Carga grande</span><small>Ciclo extendido</small></div>
+        </label>
+      </div>
+
+      <div class="notice info-notice">
+        <span class="info-icon">i</span>
+        <p>Las máquinas quedarán ocupadas para tu departamento y comenzará la cuenta regresiva. Podrás ver el estado en tiempo real.</p>
+      </div>
+
+      <div class="important-list">
+        <h3>Importante</h3>
+        <p><span>◷</span>Sé puntual al finalizar tu ciclo.</p>
+        <p><span>♧</span>Una vez terminado, retira tu ropa para que otros vecinos puedan usar la máquina.</p>
+        <p><span>♙</span>El buen uso de la lavandería nos beneficia a todos.</p>
+      </div>
+
+      <button id="confirmStartBtn" class="primary launch-button full" value="default">▶&nbsp;&nbsp; Iniciar ahora</button>
+    </form>
+  </dialog>
+
+  <dialog id="historyDialog">
+    <div class="dialog-card history-dialog">
+      <div class="dialog-handle"></div>
+      <div class="dialog-head history-head">
+        <div>
+          <div class="eyebrow">REGISTRO</div>
+          <h2>Historial de uso</h2>
+        </div>
+        <button id="closeHistoryBtn" class="icon-btn" aria-label="Cerrar">×</button>
+      </div>
+      <div class="history-filters">
+        <button class="chip active" data-history="all" type="button">Todo</button>
+        <button class="chip" data-history="mine" type="button">Mi depto</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
