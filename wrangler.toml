@@ -1,5 +1,5 @@
 name = "zanartu-lavanderia"
-main = "src/worker.js"
+main = "worker.js"
 compatibility_date = "2026-09-01"
 
 [[d1_databases]]
