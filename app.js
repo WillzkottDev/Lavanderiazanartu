@@ -54,9 +54,8 @@ function getBaseAppUrl(){
   return `${window.location.origin}${window.location.pathname}`;
 }
 function renderPageQR(){
-  const url=getBaseAppUrl();
   const label=$("#pageQrUrl");
-  if(label) label.textContent=url;
+  if(label) label.textContent=getBaseAppUrl();
 }
 async function copyPageUrl(){
   const url=getBaseAppUrl();

@@ -134,7 +134,7 @@ select:focus,input:focus{border-color:#73aafa;box-shadow:0 0 0 4px #eaf3ff}
   border:1px solid #dce6f2
 }
 
-
+.page-qr img,
 .qr-copy{min-width:0;flex:1}
 .qr-copy strong{font-size:14px;color:#102f55}
 .qr-copy>p{font-size:11px;color:#66788f;line-height:1.45;margin-top:3px}
@@ -193,7 +193,7 @@ dialog::backdrop{background:rgba(5,24,48,.6);backdrop-filter:blur(4px)}
 }
 @media(max-width:350px){.type-grid{grid-template-columns:1fr 1fr}.machine-card{min-height:150px}}
 
-.qr-fallback{font-weight:950;font-size:24px;color:#0c294e;letter-spacing:.08em}
+
 
 .machine-card.held-mine{
   background:linear-gradient(160deg,#eff6ff,#dbeafe);
@@ -228,35 +228,32 @@ dialog::backdrop{background:rgba(5,24,48,.6);backdrop-filter:blur(4px)}
   font-variant-numeric:tabular-nums;
 }
 
-
-
-
-
-
-/* FIX V8: el QR es un único SVG y jamás puede desbordar su caja */
-
-
-.page-qr 
-
-@media(max-width:520px){
-  
-}
-
-/* V9: QR único como background. No existe IMG/SVG dentro del HTML. */
+/* QR FINAL: una sola imagen embebida dentro del HTML. Sin librerías ni archivos externos. */
 .page-qr{
   width:116px;
   height:116px;
   min-width:116px;
   flex:0 0 116px;
+  padding:8px;
   border:1px solid #dfe6ef;
   border-radius:14px;
   box-shadow:0 7px 22px rgba(10,41,78,.08);
-  background-color:#fff;
-  background-image:url("/qr.png?v=9");
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:100px 100px;
+  background:#fff;
   overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.page-qr-image{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  margin:0;
+  padding:0;
 }
 
 @media(max-width:520px){
@@ -265,6 +262,6 @@ dialog::backdrop{background:rgba(5,24,48,.6);backdrop-filter:blur(4px)}
     height:94px;
     min-width:94px;
     flex-basis:94px;
-    background-size:80px 80px;
+    padding:7px;
   }
 }
