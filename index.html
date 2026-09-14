@@ -88,12 +88,14 @@
       <section id="machineGroups" class="machine-groups" aria-live="polite"></section>
 
       <section class="qr-hint card">
-        <div class="qr-faux" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div>
-          <strong>¿Vas a la lavandería?</strong>
-          <p>Escanea el QR pegado en la máquina para abrirla seleccionada automáticamente.</p>
+        <div id="pageQr" class="page-qr" aria-label="Código QR de la aplicación"></div>
+        <div class="qr-copy">
+          <strong>QR de la lavandería</strong>
+          <p>Escanéalo para abrir esta página desde otro teléfono.</p>
+          <div class="qr-url-row">
+            <span id="pageQrUrl" class="qr-url">Cargando enlace…</span>
+            <button id="copyQrUrlBtn" class="qr-copy-btn" type="button">Copiar enlace</button>
+          </div>
         </div>
       </section>
     </main>
@@ -173,6 +175,7 @@
   </dialog>
 
   <div id="toast" class="toast hidden"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/app.js" defer></script>
 </body>
 </html>

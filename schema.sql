@@ -40,3 +40,18 @@ INSERT OR IGNORE INTO machines (id,tower,type,number) VALUES
 ('T1-D1',1,'dryer',1),('T1-D2',1,'dryer',2),('T1-D3',1,'dryer',3),
 ('T2-W1',2,'washer',1),('T2-W2',2,'washer',2),('T2-W3',2,'washer',3),
 ('T2-D1',2,'dryer',1),('T2-D2',2,'dryer',2),('T2-D3',2,'dryer',3);
+
+
+CREATE TABLE IF NOT EXISTS machine_holds (
+  machine_id TEXT PRIMARY KEY,
+  resident_tower INTEGER NOT NULL CHECK (resident_tower IN (1,2)),
+  apartment TEXT NOT NULL,
+  owner_client_hash TEXT NOT NULL,
+  owner_ip_hash TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  FOREIGN KEY(machine_id) REFERENCES machines(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_machine_holds_expires
+ON machine_holds(expires_at);
