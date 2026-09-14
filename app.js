@@ -57,13 +57,17 @@ function renderPageQR(){
   const url=getBaseAppUrl();
   const label=$("#pageQrUrl");
   if(label) label.textContent=url;
+
   const holder=$("#pageQr");
   if(!holder) return;
+
   holder.innerHTML="";
+
   if(typeof QRCode==="undefined"){
     holder.innerHTML='<span class="qr-fallback">QR</span>';
     return;
   }
+
   new QRCode(holder,{
     text:url,
     width:100,
@@ -72,6 +76,12 @@ function renderPageQR(){
     colorLight:"#ffffff",
     correctLevel:QRCode.CorrectLevel.H
   });
+
+  // qrcode.js puede generar canvas + img. Dejamos solo uno visible.
+  const children=[...holder.children];
+  if(children.length>1){
+    children.slice(1).forEach(el=>el.remove());
+  }
 }
 async function copyPageUrl(){
   const url=getBaseAppUrl();
