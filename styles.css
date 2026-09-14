@@ -241,3 +241,47 @@ dialog::backdrop{background:rgba(5,24,48,.6);backdrop-filter:blur(4px)}
   object-fit:contain;
   border-radius:6px;
 }
+
+
+/* FIX V8: el QR es un único SVG y jamás puede desbordar su caja */
+.page-qr{
+  width:116px !important;
+  height:116px !important;
+  min-width:116px !important;
+  max-width:116px !important;
+  min-height:116px !important;
+  max-height:116px !important;
+  padding:8px !important;
+  overflow:hidden !important;
+  flex:0 0 116px !important;
+  display:block !important;
+  position:relative !important;
+}
+
+.page-qr .page-qr-image{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  margin:0 !important;
+  padding:0 !important;
+  position:static !important;
+}
+
+@media(max-width:520px){
+  .page-qr{
+    width:94px !important;
+    height:94px !important;
+    min-width:94px !important;
+    max-width:94px !important;
+    min-height:94px !important;
+    max-height:94px !important;
+    flex-basis:94px !important;
+    padding:7px !important;
+  }
+}
